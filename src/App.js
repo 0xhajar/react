@@ -1,21 +1,36 @@
-import logo from './logo.svg';
+import React, { useReducer } from 'react';
+import ComponentA from './components/useContextWithReducer/ComponentA';
+import ComponentX from './components/useContextWithReducer/ComponentX';
+import ComponentZ from './components/useContextWithReducer/ComponentZ';
 import './App.css';
-import Count from './components/UseStatePractise/Counter.js';
-import Counter2 from './components/UseStatePractise/Counter2.js';
-import Counter3 from './components/UseStatePractise/Counter3.js';
-import HookStateArray from './components/UseStatePractise/HookStateArray.js';
-import EffectExample1 from './components/UseEffectPractise/EffectExample1.js';
-import EffectExample2 from './components/UseEffectPractise/EffectExample2.js';
-import EffectExample3 from './components/UseEffectPractise/EffectExample3.js';
-import MouseContainer from './components/UseEffectPractise/MouseContainer.js';
-import FetchMultiplePosts from './components/dataFetching/FetchMultiplePosts.js';
-import FetchSinglePost from './components/dataFetching/FetchSinglePost.js';
+
+export const CountContext = React.createContext();
+
+const initialState = 0;
+const reducer = (state, action) => {
+  switch(action) {
+      case 'increment':
+          return state + 1;
+      case 'decrement':
+          return state - 1;
+      case 'reset':
+          return initialState;
+      default:
+          return state;
+  }
+}
 
 function App() {
+  const [count, dispatch] = useReducer(reducer, initialState);
   return (
+    <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
     <div className="App">
-      <FetchSinglePost />
+      Count : {count}
+      <ComponentA />
+      <ComponentX />
+      <ComponentZ />
     </div>
+    </CountContext.Provider>
   );
 }
 
